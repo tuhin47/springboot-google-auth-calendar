@@ -1,0 +1,190 @@
+{
+  "data": [
+    {
+      "created": "2020-04-30T20:22:40.000Z",
+      "creator": {
+        "email": "tuhintowhidul@student.sust.edu",
+        "self": true
+      },
+      "end": {
+        "dateTime": "2020-04-24T17:30:00.000+06:00"
+      },
+      "etag": "\"3176556321584000\"",
+      "htmlLink": "https://www.google.com/calendar/event?eid=NWc1MmJzNXBrMDc1MnRwYzFqODNxaXVxcWogdHVoaW50b3doaWR1bEBzdHVkZW50LnN1c3QuZWR1",
+      "iCalUID": "5g52bs5pk0752tpc1j83qiuqqj@google.com",
+      "id": "5g52bs5pk0752tpc1j83qiuqqj",
+      "kind": "calendar#event",
+      "organizer": {
+        "email": "tuhintowhidul@student.sust.edu",
+        "self": true
+      },
+      "reminders": {
+        "useDefault": true
+      },
+      "sequence": 0,
+      "start": {
+        "dateTime": "2020-04-24T08:30:00.000+06:00"
+      },
+      "status": "confirmed",
+      "summary": "Extra working day",
+      "updated": "2020-04-30T20:22:40.792Z"
+    },
+    {
+      "attendees": [
+        {
+          "email": "tuhintowhidul@student.sust.edu",
+          "responseStatus": "accepted",
+          "self": true
+        },
+        {
+          "email": "saifun@revesoft.com",
+          "responseStatus": "needsAction"
+        }
+      ],
+      "created": "2020-06-01T06:22:50.000Z",
+      "creator": {
+        "email": "tuhintowhidul@student.sust.edu",
+        "self": true
+      },
+      "description": "Dear All,\nPlease attend for VPN Add/release Loop Technical discussion regarding Code and DB.\n\n\nThanks\nBasir\n",
+      "end": {
+        "dateTime": "2020-06-01T13:00:00.000+06:00"
+      },
+      "etag": "\"3182015058222000\"",
+      "guestsCanInviteOthers": false,
+      "htmlLink": "https://www.google.com/calendar/event?eid=XzYwcTMwYzFnNjBvMzBlMWk2MG80YWMxZzYwcmo4Z3BsODhyajJjMWg4NHMzNGg5ZzYwczMwYzFnNjBvMzBjMWc3NG80YWhoaTYwcWthYzI2NmNzNDhkaGc2NG8zMGMxZzYwbzMwYzFnNjBvMzBjMWc2MG8zMmMxZzYwbzMwYzFnNzBxamNlYTI4Y3FrY2NhMThncDQ0Z3BrNjRzajBjMWw2Z3BrYWdoazc0cGsyY3E0NmQxZyB0dWhpbnRvd2hpZHVsQHN0dWRlbnQuc3VzdC5lZHU",
+      "iCalUID": "040000008200E00074C5B7101A82E0080000000090EF205E0F38D6010000000000000000100000008569BC5F1AD2BC41900543EB493A3D3C",
+      "id": "_60q30c1g60o30e1i60o4ac1g60rj8gpl88rj2c1h84s34h9g60s30c1g60o30c1g74o4ahhi60qkac266cs48dhg64o30c1g60o30c1g60o30c1g60o32c1g60o30c1g70qjcea28cqkcca18gp44gpk64sj0c1l6gpkaghk74pk2cq46d1g",
+      "kind": "calendar#event",
+      "location": "Skype",
+      "organizer": {
+        "email": "basir.leon@revesoft.com"
+      },
+      "privateCopy": true,
+      "reminders": {
+        "useDefault": true
+      },
+      "sequence": 0,
+      "start": {
+        "dateTime": "2020-06-01T12:30:00.000+06:00"
+      },
+      "status": "confirmed",
+      "summary": "VPN Add/release Loop Technical discussion regarding Code and DB",
+      "updated": "2020-06-01T10:32:09.111Z"
+    },
+    {
+      "attendees": [
+        {
+          "email": "tuhintowhidul@student.sust.edu",
+          "responseStatus": "accepted",
+          "self": true
+        }
+      ],
+      "created": "2020-07-24T17:43:05.000Z",
+      "creator": {
+        "email": "tuhintowhidul@student.sust.edu",
+        "self": true
+      },
+      "description": "To see detailed information for automatically created events like this one, use the official Google Calendar app. https://g.co/calendar\n\nThis event was created from an email you received in Gmail. https://mail.google.com/mail?extsrc=cal&plid=ACUX6DM9KOnTShINyhW9sdNUZ4m-1fvpYL3agRs\n",
+      "end": {
+        "dateTime": "2020-07-30T00:30:00.000+06:00"
+      },
+      "etag": "\"3191225170336000\"",
+      "guestsCanInviteOthers": false,
+      "htmlLink": "https://www.google.com/calendar/event?eid=XzZ0bG5hcXJsZTVwNmNwYjRkaG1qNHBocGVocTZzcGpjZGhoMzJzam1lNHNtMmM5bWQ5cG1zcWIxZHRvbWFzamVkNW02a3NwbWUxcjNnb2IyZDRwNzZwajNkOHI2c3BqNmR0bjZrZGJqY2RubWUgdHVoaW50b3doaWR1bEBzdHVkZW50LnN1c3QuZWR1",
+      "iCalUID": "7kukuqrfedlm2f9ttnfllb1rvq9a16jsniaoqerniljs6pv8abi2sfcj6nffonj5scog",
+      "id": "_6tlnaqrle5p6cpb4dhmj4phpehq6spjcdhh32sjme4sm2c9md9pmsqb1dtomasjed5m6kspme1r3gob2d4p76pj3d8r6spj6dtn6kdbjcdnme",
+      "kind": "calendar#event",
+      "organizer": {
+        "displayName": "Unknown Organizer",
+        "email": "unknownorganizer@calendar.google.com"
+      },
+      "privateCopy": true,
+      "reminders": {
+        "useDefault": true
+      },
+      "sequence": 0,
+      "source": {
+        "title": "",
+        "url": "https://mail.google.com/mail?extsrc=cal&plid=ACUX6DM9KOnTShINyhW9sdNUZ4m-1fvpYL3agRs"
+      },
+      "start": {
+        "dateTime": "2020-07-29T23:00:00.000+06:00"
+      },
+      "status": "confirmed",
+      "summary": "Break into Natural Language Processing",
+      "transparency": "transparent",
+      "updated": "2020-07-24T17:43:05.168Z",
+      "visibility": "private"
+    },
+    {
+      "attendees": [
+        {
+          "email": "tuhintowhidul@student.sust.edu",
+          "organizer": true,
+          "responseStatus": "accepted",
+          "self": true
+        },
+        {
+          "email": "tuhintowhidul9@gmail.com",
+          "responseStatus": "accepted"
+        }
+      ],
+      "conferenceData": {
+        "conferenceId": "nuv-gtov-int",
+        "conferenceSolution": {
+          "iconUri": "https://lh5.googleusercontent.com/proxy/bWvYBOb7O03a7HK5iKNEAPoUNPEXH1CHZjuOkiqxHx8OtyVn9sZ6Ktl8hfqBNQUUbCDg6T2unnsHx7RSkCyhrKgHcdoosAW8POQJm_ZEvZU9ZfAE7mZIBGr_tDlF8Z_rSzXcjTffVXg3M46v",
+          "key": {
+            "type": "hangoutsMeet"
+          },
+          "name": "Google Meet"
+        },
+        "entryPoints": [
+          {
+            "entryPointType": "video",
+            "label": "meet.google.com/nuv-gtov-int",
+            "uri": "https://meet.google.com/nuv-gtov-int"
+          },
+          {
+            "entryPointType": "phone",
+            "label": "+1 573-349-8001",
+            "pin": "969251851",
+            "uri": "tel:+1-573-349-8001",
+            "regionCode": "US"
+          }
+        ],
+        "signature": "ADR/mfMd4F65bBPq9kEYxzGAjzPG"
+      },
+      "created": "2020-07-24T18:14:45.000Z",
+      "creator": {
+        "email": "tuhintowhidul@student.sust.edu",
+        "self": true
+      },
+      "description": "For details, go here:\nhttps://deeplearningainlp.eventbrite.com",
+      "end": {
+        "dateTime": "2020-07-30T00:30:00.000+06:00"
+      },
+      "etag": "\"3191303362266000\"",
+      "guestsCanModify": true,
+      "hangoutLink": "https://meet.google.com/nuv-gtov-int",
+      "htmlLink": "https://www.google.com/calendar/event?eid=N2UycTBxcXB2YWFyMDFwMm5zb2o4YnVpbDQgdHVoaW50b3doaWR1bEBzdHVkZW50LnN1c3QuZWR1",
+      "iCalUID": "7e2q0qqpvaar01p2nsoj8buil4@google.com",
+      "id": "7e2q0qqpvaar01p2nsoj8buil4",
+      "kind": "calendar#event",
+      "organizer": {
+        "email": "tuhintowhidul@student.sust.edu",
+        "self": true
+      },
+      "reminders": {
+        "useDefault": true
+      },
+      "sequence": 0,
+      "start": {
+        "dateTime": "2020-07-29T23:00:00.000+06:00"
+      },
+      "status": "confirmed",
+      "summary": "Break into Natural Language Processing",
+      "updated": "2020-07-25T04:34:41.133Z"
+    }
+  ]
+}
