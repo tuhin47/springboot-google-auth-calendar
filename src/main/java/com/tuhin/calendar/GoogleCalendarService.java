@@ -15,8 +15,6 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -24,8 +22,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.tuhin.util.EssentialTimes.getTodaysEndTime;
-import static com.tuhin.util.EssentialTimes.getTodaysInitialTime;
+import static com.tuhin.util.TimeEssentials.*;
+
 
 @Service
 public class GoogleCalendarService {
@@ -59,12 +57,18 @@ public class GoogleCalendarService {
         for (Event event : todayEvents) {
             EventViewDTO viewDTO = EventViewDTO.builder()
                     .id(event.getId())
-                    .timePeriod("9-10AM")
+                    .timePeriod(getTimePeriodStringByEvent(event))
                     .summary(event.getSummary())
                     .build();
             viewDTOS.add(viewDTO);
         }
         return viewDTOS;
+    }
+
+    private String getTimePeriodStringByEvent(Event event) {
+        return getHourMinuteFormat(event.getStart().getDateTime()) +
+                " - " +
+                getHourMinuteFormat(event.getEnd().getDateTime());
     }
 
     private List<Event> getCalendarEventsOfToday(String code) throws IOException {
@@ -74,7 +78,7 @@ public class GoogleCalendarService {
                 .setApplicationName(APPLICATION_NAME).build();
         Calendar.Events events = client.events();
         Events eventList = events.list("primary")
-                .setTimeMin(getTodaysInitialTime()).setTimeMax(getTodaysEndTime())
+                .setTimeMin(getInitialTimeOfToday()).setTimeMax(getEndTimeOfToday())
                 .execute();
         List<Event> todayEvents = eventList.getItems();
         if (todayEvents.size() > 0) {
