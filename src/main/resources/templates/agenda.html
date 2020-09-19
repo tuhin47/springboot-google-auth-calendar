@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -17,6 +17,10 @@
     Logged in as: <span id="user"></span>
     <div>
         <button onClick="logout()" class="btn btn-primary">Logout</button>
+    </div>
+    <div class="lead">
+        <strong>Name of Event:</strong>
+        <span th:text="${tasks}"></span>
     </div>
 
 </div>
@@ -45,6 +49,7 @@
         })
         return true;
     }
+
 </script>
 </body>
 </html>
