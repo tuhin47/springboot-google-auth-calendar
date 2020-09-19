@@ -34,6 +34,23 @@
 
         </div>
     </div>
+
+    <div style="padding-top:10px" class="container">
+        <div th:if="${not #lists.isEmpty(available)}">
+            <h2>Available Time Slot</h2>
+            <table class="table table-borderless">
+                <tr>
+                    <th>Time</th>
+                    <th>Summary</th>
+                </tr>
+                <tr th:each="event : ${available}">
+                    <td class="col-md-3" th:text="${event.timePeriod}"></td>
+                    <td class="col-md-9" th:text="${event.summary}"></td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
 </div>
 <script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
 <script type="text/javascript">

@@ -1,6 +1,8 @@
 package com.tuhin.util;
 
 import com.google.api.client.util.DateTime;
+import com.google.api.services.calendar.model.Event;
+import com.tuhin.calendar.TimePeriod;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -38,4 +40,20 @@ public class TimeEssentials {
         return new DateTime(calendar.getTimeInMillis());
     }
 
+
+    public static String getTimePeriodStringByEvent(Event event) {
+        return getHourMinuteFormat(event.getStart().getDateTime()) +
+                " - " +
+                getHourMinuteFormat(event.getEnd().getDateTime());
+    }
+
+    public static String getTimePeriodStringByStartAndEnd(long start, long end) {
+        return getHourMinuteFormat(start) +
+                " - " +
+                getHourMinuteFormat(end);
+    }
+
+    public static boolean inBetweenTime(long value, TimePeriod time) {
+        return value >= time.getStartTime() && value <= time.getStartTime();
+    }
 }

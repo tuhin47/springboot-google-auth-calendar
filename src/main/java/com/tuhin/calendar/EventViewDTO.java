@@ -10,6 +10,8 @@ public class EventViewDTO {
     private String id;
     private String timePeriod;
     private String summary;
+    private long startTime;
+    private long endTime;
 
     @Override
     public String toString() {

@@ -16,11 +16,10 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static com.tuhin.util.TimeEssentials.*;
 
@@ -40,35 +39,92 @@ public class GoogleCalendarService {
     private String redirectURI;
 
 
-    public List<EventViewDTO> getCalendarEvents(String code) {
+    public RedirectAttributes getCalendarEvents(String code, RedirectAttributes redir) {
         try {
             List<Event> todayEvents = getCalendarEventsOfToday(code);
-            List<EventViewDTO> eventViewDTOList = getEventViewFromCalendarEvents(todayEvents);
-            System.out.println("My:" + eventViewDTOList.toString());
-            return eventViewDTOList;
+            List<EventViewDTO> occupiedList = getOccupiedListOfToday(todayEvents);
+            List<EventViewDTO> availableList = getAvailableListOfToday(occupiedList);
+            redir.addFlashAttribute("tasks", occupiedList);
+            redir.addFlashAttribute("available", availableList);
+            System.out.println("Occupied:" + occupiedList.toString());
+            System.out.println("Available:" + availableList.toString());
+            return redir;
         } catch (Exception e) {
             System.err.println("Exception to get calendar data" + e.getMessage());
-            return new ArrayList<>();
+            return redir;
         }
     }
 
-    private List<EventViewDTO> getEventViewFromCalendarEvents(List<Event> todayEvents) {
+    private List<EventViewDTO> getAvailableListOfToday(List<EventViewDTO> occupiedList) {
+        HashMap<Integer, TimePeriod> mergedOccupied = new HashMap<>();
+        for (EventViewDTO event : occupiedList) {
+            Iterator it = mergedOccupied.entrySet().iterator();
+            boolean inserted = false;
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry) it.next();
+                TimePeriod time = (TimePeriod) pair.getValue();
+                if (inBetweenTime(event.getStartTime(), time) || inBetweenTime(event.getEndTime(), time)) {
+                    inserted = true;
+                    TimePeriod timePeriod = TimePeriod.builder().
+                            startTime(Math.min(time.getStartTime(), event.getStartTime()))
+                            .endTime(Math.max(time.getEndTime(), event.getEndTime()))
+                            .build();
+                    mergedOccupied.put((Integer) pair.getKey(), timePeriod);
+                }
+
+            }
+            if (!inserted) {
+                TimePeriod timePeriod = TimePeriod.builder().
+                        startTime(event.getStartTime())
+                        .endTime(event.getEndTime())
+                        .build();
+                mergedOccupied.put(mergedOccupied.size(), timePeriod);
+            }
+        }
+        Iterator it = mergedOccupied.entrySet().iterator();
+        long start = getInitialTimeOfToday().getValue();
+        long end = getEndTimeOfToday().getValue();
+        List<EventViewDTO> availableList = new ArrayList<>();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            System.out.println(pair.getKey() + " = " + pair.getValue());
+            TimePeriod time = (TimePeriod) pair.getValue();
+            long period = time.getStartTime() - start;
+            if (period > 0) {
+                availableList.add(
+                        EventViewDTO.builder()
+                                .startTime(start)
+                                .endTime(time.getStartTime() - 1)
+                                .timePeriod(getTimePeriodStringByStartAndEnd(start, time.getStartTime() - 1))
+                                .summary("available")
+                                .build()
+                );
+            }
+            start = Math.max(start, time.getEndTime() + 1);
+        }
+        if (end - start > 0) {
+            availableList.add(
+                    EventViewDTO.builder().startTime(start).endTime(end)
+                            .timePeriod(getTimePeriodStringByStartAndEnd(start, end))
+                            .summary("available").build()
+            );
+        }
+        return availableList;
+    }
+
+    private List<EventViewDTO> getOccupiedListOfToday(List<Event> todayEvents) {
         List<EventViewDTO> viewDTOS = new ArrayList<>();
         for (Event event : todayEvents) {
             EventViewDTO viewDTO = EventViewDTO.builder()
                     .id(event.getId())
+                    .startTime(event.getStart().getDateTime().getValue())
+                    .endTime(event.getEnd().getDateTime().getValue())
                     .timePeriod(getTimePeriodStringByEvent(event))
                     .summary(event.getSummary())
                     .build();
             viewDTOS.add(viewDTO);
         }
         return viewDTOS;
-    }
-
-    private String getTimePeriodStringByEvent(Event event) {
-        return getHourMinuteFormat(event.getStart().getDateTime()) +
-                " - " +
-                getHourMinuteFormat(event.getEnd().getDateTime());
     }
 
     private List<Event> getCalendarEventsOfToday(String code) throws IOException {
@@ -87,7 +143,7 @@ public class GoogleCalendarService {
         return todayEvents;
     }
 
-    protected String authorize() throws Exception {
+    protected String authorizeURL() throws Exception {
         if (flow == null) {
             Details web = new Details();
             web.setClientId(clientId);

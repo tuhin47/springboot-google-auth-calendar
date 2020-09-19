@@ -1,7 +1,6 @@
 package com.tuhin.calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,13 +25,13 @@ public class GoogleCalendarController {
 
     @RequestMapping(value = "/agenda", method = RequestMethod.GET)
     public RedirectView googleConnectionStatus(HttpServletRequest request) throws Exception {
-        return new RedirectView(googleCalendarService.authorize());
+        return new RedirectView(googleCalendarService.authorizeURL());
     }
 
     @RequestMapping(value = "/login/google", method = RequestMethod.GET, params = "code")
     public RedirectView oauth2Callback(@RequestParam(value = "code") String code, RedirectAttributes redir) {
         RedirectView redirectView = new RedirectView("/agendaView", true);
-        redir.addFlashAttribute("tasks", googleCalendarService.getCalendarEvents(code));
+        googleCalendarService.getCalendarEvents(code, redir);
         return redirectView;
     }
 
