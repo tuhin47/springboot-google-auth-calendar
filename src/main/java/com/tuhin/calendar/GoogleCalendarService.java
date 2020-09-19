@@ -19,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,12 +29,9 @@ import static com.tuhin.util.EssentialTimes.getTodaysInitialTime;
 
 @Service
 public class GoogleCalendarService {
-
     private static final String APPLICATION_NAME = "CalendarApp";
     private static HttpTransport httpTransport;
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-
-    GoogleClientSecrets clientSecrets;
     GoogleAuthorizationCodeFlow flow;
 
     @Value("${google.client.client-id}")
@@ -43,30 +42,45 @@ public class GoogleCalendarService {
     private String redirectURI;
 
 
-    public ResponseEntity<String> getCalendarEvents(String code) {
-        String message;
+    public List<EventViewDTO> getCalendarEvents(String code) {
         try {
-            TokenResponse response = flow.newTokenRequest(code).setRedirectUri(redirectURI).execute();
-            Credential credential = flow.createAndStoreCredential(response, "userID");
-            Calendar client = new com.google.api.services.calendar.Calendar.Builder(httpTransport, JSON_FACTORY, credential)
-                    .setApplicationName(APPLICATION_NAME).build();
-            Calendar.Events events = client.events();
-            Events  eventList = events.list("primary")
-                    .setTimeMin(getTodaysInitialTime()).setTimeMax(getTodaysEndTime())
-                    .execute();
-            List<Event> todayEvents = eventList.getItems();
-            if (todayEvents.size() > 0) {
-                todayEvents.sort(new EventComparatorFirstStartLessEnd());
-                System.out.println(todayEvents);
-            }
-            message = eventList.getItems().toString();
-            System.out.println("My:" + eventList.getItems());
+            List<Event> todayEvents = getCalendarEventsOfToday(code);
+            List<EventViewDTO> eventViewDTOList = getEventViewFromCalendarEvents(todayEvents);
+            System.out.println("My:" + eventViewDTOList.toString());
+            return eventViewDTOList;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
-            message = "Exception Handling Calendar Data";
-            return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+            System.err.println("Exception to get calendar data" + e.getMessage());
+            return new ArrayList<>();
         }
-        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+    private List<EventViewDTO> getEventViewFromCalendarEvents(List<Event> todayEvents) {
+        List<EventViewDTO> viewDTOS = new ArrayList<>();
+        for (Event event : todayEvents) {
+            EventViewDTO viewDTO = EventViewDTO.builder()
+                    .id(event.getId())
+                    .timePeriod("9-10AM")
+                    .summary(event.getSummary())
+                    .build();
+            viewDTOS.add(viewDTO);
+        }
+        return viewDTOS;
+    }
+
+    private List<Event> getCalendarEventsOfToday(String code) throws IOException {
+        TokenResponse response = flow.newTokenRequest(code).setRedirectUri(redirectURI).execute();
+        Credential credential = flow.createAndStoreCredential(response, "userID");
+        Calendar client = new Calendar.Builder(httpTransport, JSON_FACTORY, credential)
+                .setApplicationName(APPLICATION_NAME).build();
+        Calendar.Events events = client.events();
+        Events eventList = events.list("primary")
+                .setTimeMin(getTodaysInitialTime()).setTimeMax(getTodaysEndTime())
+                .execute();
+        List<Event> todayEvents = eventList.getItems();
+        if (todayEvents.size() > 0) {
+            todayEvents.sort(new EventComparatorFirstStartLessEnd());
+        }
+        return todayEvents;
     }
 
     protected String authorize() throws Exception {
@@ -74,7 +88,7 @@ public class GoogleCalendarService {
             Details web = new Details();
             web.setClientId(clientId);
             web.setClientSecret(clientSecret);
-            clientSecrets = new GoogleClientSecrets().setWeb(web);
+            GoogleClientSecrets clientSecrets = new GoogleClientSecrets().setWeb(web);
             httpTransport = GoogleNetHttpTransport.newTrustedTransport();
             flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets,
                     Collections.singleton(CalendarScopes.CALENDAR_READONLY)).build();

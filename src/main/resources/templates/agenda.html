@@ -18,9 +18,20 @@
     <div>
         <button onClick="logout()" class="btn btn-primary">Logout</button>
     </div>
-    <div class="lead">
-        <strong>Name of Event:</strong>
-        <span th:text="${tasks}"></span>
+
+    <div th:if="${not #lists.isEmpty(tasks)}">
+        <h2>Calender Schedule</h2>
+        <table class="table table-responsive">
+            <tr>
+                <th>Time</th>
+                <th>Summary</th>
+            </tr>
+            <tr th:each="event : ${tasks}">
+                <td class="col-md-3" th:text="${event.timePeriod}"></td>
+                <td class="col-md-9" th:text="${event.summary}"></td>
+            </tr>
+        </table>
+
     </div>
 
 </div>
