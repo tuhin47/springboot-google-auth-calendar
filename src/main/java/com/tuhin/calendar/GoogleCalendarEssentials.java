@@ -6,6 +6,7 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.CalendarScopes;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -19,6 +20,7 @@ public class GoogleCalendarEssentials {
     private static HttpTransport httpTransport;
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static GoogleAuthorizationCodeFlow googleAuthorizationCodeFlow;
+    private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
     @Value("${google.client.client-id}")
     private String clientId;
@@ -51,7 +53,10 @@ public class GoogleCalendarEssentials {
             GoogleClientSecrets clientSecrets = new GoogleClientSecrets().setWeb(web);
             httpTransport = GoogleNetHttpTransport.newTrustedTransport();
             googleAuthorizationCodeFlow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets,
-                    Collections.singleton(CalendarScopes.CALENDAR_READONLY)).build();
+                    Collections.singleton(CalendarScopes.CALENDAR_READONLY))
+                    .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+                    .setAccessType("offline")
+                    .build();
         }
         return googleAuthorizationCodeFlow;
     }
