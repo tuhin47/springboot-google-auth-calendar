@@ -5,26 +5,27 @@ import com.google.api.services.calendar.model.Event;
 
 import java.util.Comparator;
 
-public class EventComparatorLessEndFirstWithSameStart implements Comparator<Event> {
+public class EventComparatorFirstStartLessEnd implements Comparator<Event> {
 
     private int compareDateTime(DateTime dt1, DateTime dt2) {
         return Long.compare(dt1.getValue(), dt2.getValue());
     }
 
     private int compareStartTime(Event e1, Event e2) {
-        return compareDateTime(e1.getStart().getDate(), e2.getStart().getDate());
+        return compareDateTime(e1.getStart().getDateTime(), e2.getStart().getDateTime());
     }
 
     private int compareEndTime(Event e1, Event e2) {
-        return compareDateTime(e1.getEnd().getDate(), e2.getEnd().getDate());
+        return compareDateTime(e1.getEnd().getDateTime(), e2.getEnd().getDateTime());
     }
 
     @Override
     public int compare(Event t1, Event t2) {
 
-        if (compareStartTime(t1, t2) == 0) {
+        int firstStart = compareStartTime(t1, t2);
+        if (firstStart == 0) {
             return compareEndTime(t1, t2);
         }
-        return 0;
+        return firstStart;
     }
 }
