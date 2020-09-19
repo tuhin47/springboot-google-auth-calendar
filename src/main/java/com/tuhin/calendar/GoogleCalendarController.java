@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,15 +18,22 @@ public class GoogleCalendarController {
     @Autowired
     GoogleCalendarService googleCalendarService;
 
+    @RequestMapping(value = "/agendaView", method = RequestMethod.GET)
+    public String getAgendaView(Model model) {
+        if(model.containsAttribute("tasks")) return "agenda";
+        return "redirect:/agenda";
+    }
+
     @RequestMapping(value = "/agenda", method = RequestMethod.GET)
     public RedirectView googleConnectionStatus(HttpServletRequest request) throws Exception {
         return new RedirectView(googleCalendarService.authorize());
     }
 
     @RequestMapping(value = "/login/google", method = RequestMethod.GET, params = "code")
-    public String oauth2Callback(@RequestParam(value = "code") String code, Model model) {
-        model.addAttribute("tasks",googleCalendarService.getCalendarEvents(code));
-        return "agenda";
+    public RedirectView oauth2Callback(@RequestParam(value = "code") String code, RedirectAttributes redir) {
+        RedirectView redirectView = new RedirectView("/agendaView", true);
+        redir.addFlashAttribute("tasks", googleCalendarService.getCalendarEvents(code));
+        return redirectView;
     }
 
 }
