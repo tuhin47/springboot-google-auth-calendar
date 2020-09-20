@@ -24,6 +24,7 @@ public class TimeEssentials {
 
     public static DateTime getInitialTimeOfToday() {
         Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);

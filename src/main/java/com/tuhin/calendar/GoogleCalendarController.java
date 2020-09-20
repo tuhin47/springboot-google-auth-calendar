@@ -17,21 +17,21 @@ public class GoogleCalendarController {
     @Autowired
     GoogleCalendarService googleCalendarService;
 
-    @RequestMapping(value = "/agendaView", method = RequestMethod.GET)
+    @RequestMapping(value = "/agenda", method = RequestMethod.GET)
     public String getAgendaView(Model model) {
         if(model.containsAttribute("tasks")) return "agenda";
-        return "redirect:/agenda";
+        return "redirect:/agendaData";
     }
 
-    @RequestMapping(value = "/agenda", method = RequestMethod.GET)
+    @RequestMapping(value = "/agendaData", method = RequestMethod.GET)
     public RedirectView googleConnectionStatus(HttpServletRequest request) throws Exception {
         return new RedirectView(googleCalendarService.authorizeURL());
     }
 
     @RequestMapping(value = "/login/google", method = RequestMethod.GET, params = "code")
-    public RedirectView oauth2Callback(@RequestParam(value = "code") String code, RedirectAttributes redir) {
-        RedirectView redirectView = new RedirectView("/agendaView", true);
-        googleCalendarService.getCalendarEvents(code, redir);
+    public RedirectView oauth2Callback(@RequestParam(value = "code") String code, RedirectAttributes redirectAttributes) {
+        RedirectView redirectView = new RedirectView("/agenda", true);
+        googleCalendarService.getCalendarEvents(code, redirectAttributes);
         return redirectView;
     }
 
