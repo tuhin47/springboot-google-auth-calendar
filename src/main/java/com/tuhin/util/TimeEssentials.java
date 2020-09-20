@@ -56,4 +56,8 @@ public class TimeEssentials {
     public static boolean inBetweenTime(long value, TimePeriod time) {
         return value >= time.getStartTime() && value <= time.getStartTime();
     }
+
+    public static DateTime getDateTimeFromMS(long value) {
+        return new DateTime(value);
+    }
 }
