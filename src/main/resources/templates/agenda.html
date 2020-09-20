@@ -19,35 +19,48 @@
         <button onClick="logout()" class="btn btn-danger">Logout</button>
     </div>
     <div style="padding-top:10px" class="container">
-        <div th:if="${not #lists.isEmpty(tasks)}">
+        <div>
             <h2>Calender Schedule</h2>
-            <table class="table table-borderless">
-                <tr>
-                    <th>Time</th>
-                    <th>Summary</th>
-                </tr>
-                <tr th:each="event : ${tasks}">
-                    <td class="col-md-3" th:text="${event.timePeriod}"></td>
-                    <td class="col-md-9" th:text="${event.summary}"></td>
-                </tr>
-            </table>
+            <div th:if="${not #lists.isEmpty(tasks)}">
+                <table class="table table-borderless">
+                    <tr>
+                        <th>Time</th>
+                        <th>Summary</th>
+                    </tr>
+                    <tr th:each="event : ${tasks}">
+                        <td class="col-md-3" th:text="${event.timePeriod}"></td>
+                        <td class="col-md-9" th:text="${event.summary}"></td>
+                    </tr>
+                </table>
+            </div>
+            <div th:if="${#lists.isEmpty(tasks)}">
+                <hr>
+                No Data Available
+            </div>
 
         </div>
     </div>
 
     <div style="padding-top:10px" class="container">
-        <div th:if="${not #lists.isEmpty(available)}">
+        <div>
             <h2>Available Time Slot</h2>
-            <table class="table table-borderless">
-                <tr>
-                    <th>Time</th>
-                    <th>Summary</th>
-                </tr>
-                <tr th:each="event : ${available}">
-                    <td class="col-md-3" th:text="${event.timePeriod}"></td>
-                    <td class="col-md-9" th:text="${event.summary}"></td>
-                </tr>
-            </table>
+
+            <div th:if="${not #lists.isEmpty(available)}">
+                <table class="table table-borderless">
+                    <tr>
+                        <th>Time</th>
+                        <th>Summary</th>
+                    </tr>
+                    <tr th:each="event : ${available}">
+                        <td class="col-md-3" th:text="${event.timePeriod}"></td>
+                        <td class="col-md-9" th:text="${event.summary}"></td>
+                    </tr>
+                </table>
+            </div>
+            <div th:if="${#lists.isEmpty(available)}">
+                <hr>
+                No Data Available
+            </div>
 
         </div>
     </div>
@@ -77,6 +90,8 @@
         })
         return true;
     }
+
+
 
 
 </script>

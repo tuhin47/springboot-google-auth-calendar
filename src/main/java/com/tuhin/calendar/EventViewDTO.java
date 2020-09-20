@@ -1,9 +1,10 @@
 package com.tuhin.calendar;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 
-@Getter
+@Data
 @Builder
 public class EventViewDTO {
 
@@ -13,12 +14,4 @@ public class EventViewDTO {
     private long startTime;
     private long endTime;
 
-    @Override
-    public String toString() {
-        return "EventViewDTO{" +
-                "id='" + id + '\'' +
-                ", timePeriod='" + timePeriod + '\'' +
-                ", summary='" + summary + '\'' +
-                '}';
-    }
 }

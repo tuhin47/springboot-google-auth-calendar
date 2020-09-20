@@ -26,9 +26,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest
 public class SocialApplicationTests {
 
-	@MockBean
-	ClientRegistrationRepository clientRegistrationRepository;
-
 	@Test
 	public void contextLoads() {
 	}
