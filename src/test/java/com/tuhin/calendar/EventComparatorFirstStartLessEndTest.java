@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 import static com.tuhin.util.TimeEssentials.*;
 
@@ -35,8 +35,9 @@ class EventComparatorFirstStartLessEndTest {
         Collections.sort(arr);
         int i = 0;
         for (Event event : events) {
-            Assert.assertEquals((Long) event.getStart().getDateTime().getValue(), arr.get(i++));
+            assertEquals((Long) event.getStart().getDateTime().getValue(), arr.get(i++));
         }
+
 
 
     }
@@ -60,7 +61,7 @@ class EventComparatorFirstStartLessEndTest {
         Collections.sort(arr);
         int i = 0;
         for (Event event : events) {
-            Assert.assertEquals((Long) event.getEnd().getDateTime().getValue(), arr.get(i++));
+            assertEquals((Long) event.getEnd().getDateTime().getValue(), arr.get(i++));
         }
 
 

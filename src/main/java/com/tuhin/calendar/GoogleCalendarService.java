@@ -45,10 +45,10 @@ public class GoogleCalendarService extends GoogleCalendarEssentials {
         }
     }
 
-    private List<EventViewDTO> getAvailableListOfToday(List<EventViewDTO> occupiedList) {
-        HashMap<Integer, TimePeriod> mergedOccupied = getMergedOccupiedList(occupiedList);
-        return getAvailAbleListFromMergedOccupied(mergedOccupied);
-    }
+     List<EventViewDTO> getAvailableListOfToday(List<EventViewDTO> occupiedList) {
+         HashMap<Integer, TimePeriod> mergedOccupied = getMergedOccupiedList(occupiedList);
+         return getAvailAbleListFromMergedOccupied(mergedOccupied);
+     }
 
     private List<EventViewDTO> getAvailAbleListFromMergedOccupied(HashMap<Integer, TimePeriod> mergedOccupied) {
         Iterator it = mergedOccupied.entrySet().iterator();
@@ -111,7 +111,7 @@ public class GoogleCalendarService extends GoogleCalendarEssentials {
         return mergedOccupied;
     }
 
-    private List<EventViewDTO> getOccupiedListOfToday(List<Event> todayEvents) {
+    List<EventViewDTO> getOccupiedListOfToday(List<Event> todayEvents) {
         List<EventViewDTO> viewDTOS = new ArrayList<>();
         for (Event event : todayEvents) {
             EventViewDTO viewDTO = EventViewDTO.builder()
