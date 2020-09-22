@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN" monitorInterval="30">
     <Properties>
-        <!--        <Property name="LOG_PATTERN">%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %p %m%n</Property>-->
         <!--[%10.10t]-->
-        <Property name="LOG_PATTERN">%d{MM-dd-yyyy HH:mm:ss} %4p >[%20M] %40.40c:%-5.5L: %m%n%ex</Property>
+        <Property name="LOG_PATTERN">%d{MM-dd-yyyy HH:mm:ss} [%30M] %40.40c:%-5.5L %4p : %m%n%ex</Property>
         <Property name="APP_LOG_ROOT">/home/tuhin47/Documents</Property>
     </Properties>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT" follow="true">
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </Console>
-        A
         <RollingFile name="appLog"
                      fileName="${APP_LOG_ROOT}/SpringBoot2App/application.log"
                      filePattern="${APP_LOG_ROOT}/SpringBoot2App/application-%d{yyyy-MM-dd}-%i.log">
@@ -23,8 +21,7 @@
 
     </Appenders>
     <Loggers>
-
-        <Logger name="com.tuhin" additivity="false">
+        <Logger name="com.tuhin.calendar" additivity="false">
             <AppenderRef ref="appLog"/>
             <AppenderRef ref="Console"/>
         </Logger>

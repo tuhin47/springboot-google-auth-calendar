@@ -22,11 +22,19 @@ public class IndexController {
         }
         return authentication.isAuthenticated();
     }
+
     @ResponseBody
     @RequestMapping("/user")
     public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
         return Collections.singletonMap("name", principal.getAttribute("name"));
     }
+
+    @ResponseBody
+    @RequestMapping("/userInfo")
+    public OAuth2User userInfo(@AuthenticationPrincipal OAuth2User principal) {
+        return principal;
+    }
+
     @RequestMapping("/")
     public String getIndex() {
         if (isAuthenticated()) {

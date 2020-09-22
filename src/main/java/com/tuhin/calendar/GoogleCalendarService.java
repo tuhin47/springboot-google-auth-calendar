@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.*;
+import java.util.Map.Entry;
 
 import static com.tuhin.util.TimeEssentials.*;
 
@@ -23,7 +24,7 @@ public class GoogleCalendarService extends GoogleCalendarEssentials {
     protected String authorizeURL() throws Exception {
         AuthorizationCodeRequestUrl requestUrl = getGoogleAuthorizationCodeFlow()
                 .newAuthorizationUrl().setRedirectUri(getRedirectURI());
-        log.info("Request Url" + requestUrl);
+        log.info("Request Url :" + requestUrl);
         return requestUrl.build();
     }
 
@@ -41,20 +42,24 @@ public class GoogleCalendarService extends GoogleCalendarEssentials {
         }
     }
 
-     List<EventViewDTO> getAvailableListOfToday(List<EventViewDTO> occupiedList) {
-         HashMap<Integer, TimePeriod> mergedOccupied = getMergedOccupiedList(occupiedList);
-         return getAvailAbleListFromMergedOccupied(mergedOccupied);
-     }
+    List<EventViewDTO> getAvailableListOfToday(List<EventViewDTO> occupiedList) {
+        HashMap<Integer, TimePeriod> mergedOccupied = getMergedOccupiedList(occupiedList);
+        return getAvailAbleListFromMergedOccupied(mergedOccupied);
+    }
 
+    /**
+     * @param mergedOccupied is a list of Merged tasks which overlap each other.
+     * @return available period of time of a day
+     */
     private List<EventViewDTO> getAvailAbleListFromMergedOccupied(HashMap<Integer, TimePeriod> mergedOccupied) {
-        Iterator it = mergedOccupied.entrySet().iterator();
+        Iterator<Entry<Integer, TimePeriod>> it = mergedOccupied.entrySet().iterator();
         long start = getInitialTimeOfToday().getValue();
         long end = getEndTimeOfToday().getValue();
         List<EventViewDTO> availableList = new ArrayList<>();
         while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            log.info(pair.getKey() + " = " + pair.getValue());
-            TimePeriod time = (TimePeriod) pair.getValue();
+            Entry<Integer, TimePeriod> pair = it.next();
+            log.debug(pair.getKey() + " = " + pair.getValue());
+            TimePeriod time = pair.getValue();
             long period = time.getStartTime() - start;
             if (period > 0) {
                 availableList.add(
@@ -81,18 +86,18 @@ public class GoogleCalendarService extends GoogleCalendarEssentials {
     private HashMap<Integer, TimePeriod> getMergedOccupiedList(List<EventViewDTO> occupiedList) {
         HashMap<Integer, TimePeriod> mergedOccupied = new HashMap<>();
         for (EventViewDTO event : occupiedList) {
-            Iterator it = mergedOccupied.entrySet().iterator();
+            Iterator<Entry<Integer, TimePeriod>> it = mergedOccupied.entrySet().iterator();
             boolean inserted = false;
             while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry) it.next();
-                TimePeriod time = (TimePeriod) pair.getValue();
+                Entry<Integer, TimePeriod> pair = it.next();
+                TimePeriod time = pair.getValue();
                 if (inBetweenTime(event.getStartTime(), time) || inBetweenTime(event.getEndTime(), time)) {
                     inserted = true;
                     TimePeriod timePeriod = TimePeriod.builder().
                             startTime(Math.min(time.getStartTime(), event.getStartTime()))
                             .endTime(Math.max(time.getEndTime(), event.getEndTime()))
                             .build();
-                    mergedOccupied.put((Integer) pair.getKey(), timePeriod);
+                    mergedOccupied.put(pair.getKey(), timePeriod);
                 }
 
             }
