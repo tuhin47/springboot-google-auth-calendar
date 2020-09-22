@@ -3,14 +3,10 @@ package com.tuhin.calendar;
 import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -20,28 +16,28 @@ import java.util.*;
 
 import static com.tuhin.util.TimeEssentials.*;
 
-
+@Log4j2
 @Service
 public class GoogleCalendarService extends GoogleCalendarEssentials {
 
     protected String authorizeURL() throws Exception {
         AuthorizationCodeRequestUrl requestUrl = getGoogleAuthorizationCodeFlow()
                 .newAuthorizationUrl().setRedirectUri(getRedirectURI());
-        System.out.println("Request Url" + requestUrl);
+        log.info("Request Url" + requestUrl);
         return requestUrl.build();
     }
 
-    public void getCalendarEvents(String code, RedirectAttributes redir) {
+    public void getCalendarEvents(String code, RedirectAttributes redirectAttributes) {
         try {
             List<Event> todayEvents = getCalendarEventsOfToday(code);
             List<EventViewDTO> occupiedList = getOccupiedListOfToday(todayEvents);
             List<EventViewDTO> availableList = getAvailableListOfToday(occupiedList);
-            redir.addFlashAttribute("tasks", occupiedList);
-            redir.addFlashAttribute("available", availableList);
-            System.out.println("Occupied:" + occupiedList.toString());
-            System.out.println("Available:" + availableList.toString());
+            redirectAttributes.addFlashAttribute("tasks", occupiedList);
+            redirectAttributes.addFlashAttribute("available", availableList);
+            log.info("Occupied:" + occupiedList.toString());
+            log.info("Available:" + availableList.toString());
         } catch (Exception e) {
-            System.err.println("Exception to get calendar data" + e.getMessage());
+            log.error("Exception to get calendar data" + e.getMessage());
         }
     }
 
@@ -57,7 +53,7 @@ public class GoogleCalendarService extends GoogleCalendarEssentials {
         List<EventViewDTO> availableList = new ArrayList<>();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
-            System.out.println(pair.getKey() + " = " + pair.getValue());
+            log.info(pair.getKey() + " = " + pair.getValue());
             TimePeriod time = (TimePeriod) pair.getValue();
             long period = time.getStartTime() - start;
             if (period > 0) {
