@@ -4,15 +4,14 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.tuhin.util.CommonUtils;
 import com.tuhin.util.TimeEssentials;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
 
-import static com.tuhin.util.TimeEssentials.*;
+import static com.tuhin.util.TimeEssentials.getDateTimeFromMS;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class EventComparatorFirstStartLessEndTest {
 
